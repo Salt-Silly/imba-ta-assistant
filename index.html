@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>window.__API_BASES__ = ["https://promoted-hardcover-baskets-evans.trycloudflare.com","https://conditioning-hundreds-equipment-agree.trycloudflare.com"];</script>
+  <script>window.__API_POINTERS__ = ["https://Salt-Silly.github.io/imba-ta-assistant/api.json","https://salt-silly.github.io/imba-ta-assistant/api.json"];</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>IMBA Teaching Assistant · CUHK-Shenzhen</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%236366f1'/%3E%3Ctext x='50%25' y='58%25' font-size='18' text-anchor='middle' fill='white' font-family='system-ui' font-weight='600'%3EIM%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --primary-soft: #eef2ff;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --border: #e5e7eb;
+      --text: #1f2937;
+      --text-soft: #6b7280;
+      --text-on-primary: #ffffff;
+      --shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.25);
+      --radius: 14px;
+      --radius-sm: 10px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+        "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial,
+        sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .app {
+      width: 100%;
+      height: 100vh; /* fallback for older browsers */
+      height: 100dvh; /* mobile-friendly: tracks dynamic viewport */
+      display: flex;
+      flex-direction: column;
+      padding: 16px;
+      padding-top: max(16px, env(safe-area-inset-top, 16px));
+      padding-bottom: max(12px, env(safe-area-inset-bottom, 12px));
+      gap: 12px;
+    }
+
+    header {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 0.5px;
+    }
+
+    .brand-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .brand-sub {
+      font-size: 12px;
+      color: var(--text-soft);
+      margin: 2px 0 0;
+    }
+
+    .actions { display: flex; gap: 8px; }
+
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-soft);
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 13px;
+      transition: all 0.15s;
+    }
+    .btn-ghost:hover { color: var(--text); border-color: var(--primary); }
+
+    .chat {
+      flex: 1;
+      overflow-y: auto;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+    }
+
+    .empty {
+      margin: auto;
+      text-align: center;
+      color: var(--text-soft);
+      max-width: 480px;
+    }
+
+    .empty h2 {
+      color: var(--text);
+      margin: 0 0 6px;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .empty p { margin: 0 0 16px; font-size: 14px; line-height: 1.6; }
+
+    .quick-questions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+    }
+
+    .quick-q {
+      background: var(--primary-soft);
+      border: 1px solid transparent;
+      color: var(--primary-hover);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .quick-q:hover {
+      background: var(--primary);
+      color: var(--text-on-primary);
+      transform: translateY(-1px);
+    }
+
+    .msg {
+      display: flex;
+      gap: 10px;
+      max-width: 92%; /* readable line length on mid-size screens */
+      animation: fadeIn 0.2s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .msg .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+    }
+    .msg.user .avatar { background: var(--primary); }
+    .msg.assistant .avatar { background: linear-gradient(135deg, #10b981, #14b8a6); }
+
+    .bubble {
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      line-height: 1.65;
+      font-size: 14.5px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .msg.user {
+      align-self: flex-end;
+      flex-direction: row-reverse;
+    }
+    .msg.user .bubble {
+      background: var(--primary);
+      color: var(--text-on-primary);
+      border-bottom-right-radius: 4px;
+    }
+
+    .msg.assistant .bubble {
+      background: #f1f5f9;
+      color: var(--text);
+      border-bottom-left-radius: 4px;
+    }
+
+    .msg.error .bubble {
+      background: #fef2f2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+    }
+
+    .typing-dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--text-soft);
+      margin: 0 2px;
+      opacity: 0.3;
+      animation: bounce 1.2s infinite ease-in-out;
+    }
+    .typing-dot:nth-child(2) { animation-delay: 0.15s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.3s; }
+    @keyframes bounce {
+      0%, 60%, 100% { transform: translateY(0); opacity: 0.3; }
+      30% { transform: translateY(-4px); opacity: 1; }
+    }
+
+    .composer {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 10px;
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+      box-shadow: var(--shadow);
+    }
+
+    textarea {
+      flex: 1;
+      border: none;
+      outline: none;
+      resize: none;
+      font: inherit;
+      font-size: 15px; /* desktop */
+      line-height: 1.5;
+      padding: 8px 10px;
+      background: transparent;
+      color: var(--text);
+      max-height: 160px;
+      min-height: 24px;
+    }
+
+    textarea::placeholder { color: var(--text-soft); }
+
+    .btn-primary {
+      background: var(--primary);
+      color: var(--text-on-primary);
+      border: none;
+      padding: 10px 18px;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+    .btn-primary:hover:not(:disabled) { background: var(--primary-hover); }
+    .btn-primary:disabled {
+      background: #c7d2fe;
+      cursor: not-allowed;
+    }
+
+    /* ---------- Touch devices (phones / tablets) ---------- */
+    @media (pointer: coarse) {
+      .btn-primary { padding: 12px 20px; font-size: 15px; }
+      .btn-ghost { padding: 9px 14px; }
+      .quick-q { padding: 10px 16px; font-size: 14px; }
+      textarea { font-size: 16px; } /* prevents iOS auto-zoom on focus */
+    }
+
+    /* ---------- Small phones ---------- */
+    @media (max-width: 480px) {
+      .app { padding: 10px; gap: 8px; }
+      .brand-mark { width: 32px; height: 32px; font-size: 13px; }
+      .brand-title { font-size: 15px; }
+      .brand-sub { font-size: 11px; }
+      .chat { padding: 12px; }
+      .bubble { font-size: 14px; }
+      .empty h2 { font-size: 16px; }
+      .empty p { font-size: 13px; }
+      .msg { max-width: 96%; }
+    }
+
+    /* ---------- Tablets / small laptops ---------- */
+    @media (min-width: 481px) and (max-width: 880px) {
+      .app { padding: 12px; }
+      .bubble { font-size: 14px; }
+    }
+
+    /* ---------- Large desktop ---------- */
+    @media (min-width: 1400px) {
+      .bubble { font-size: 15px; }
+      .msg { max-width: 82%; } /* cap bubble width for readability on wide screens */
+    }
+
+    /* ---------- Wide landscape phones (keyboard open, split view) ---------- */
+    @media (max-height: 480px) and (orientation: landscape) {
+      .app { padding: 8px; gap: 6px; }
+      header { padding: 8px 12px; }
+      .brand-sub { display: none; }
+      .chat { padding: 10px; }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="brand">
+        <div class="brand-mark">IM</div>
+        <div>
+          <h1 class="brand-title">IMBA Teaching Assistant</h1>
+          <p class="brand-sub">CUHK-Shenzhen · Powered by Qwen 3.8 Flash</p>
+        </div>
+      </div>
+      <div class="actions">
+        <button id="clearBtn" class="btn-ghost" type="button">Clear Chat</button>
+      </div>
+    </header>
+
+    <main id="chat" class="chat" aria-live="polite">
+      <div class="empty" id="empty">
+        <h2>Hi, I'm your IMBA Teaching Assistant 👋</h2>
+        <p>
+          Ask me anything about first-semester course schedules, assessments,
+          assignments, and exams. I only answer based on the official course
+          information — if something isn't provided, I'll tell you directly.
+        </p>
+        <div class="quick-questions">
+          <button class="quick-q" data-q="How is Course 6316 assessed?">6316 · Assessment</button>
+          <button class="quick-q" data-q="What does Course 6102 cover in Week 7?">6102 · Week 7</button>
+          <button class="quick-q" data-q="What are the midterm and final exam weights for Course 6107?">6107 · Exams</button>
+        </div>
+      </div>
+    </main>
+
+    <div class="composer">
+      <textarea
+        id="input"
+        rows="1"
+        placeholder="Type your question… (Enter to send, Shift + Enter for a new line)"
+        aria-label="Question input"
+      ></textarea>
+      <button id="sendBtn" class="btn-primary" type="button">Send</button>
+    </div>
+  </div>
+
+  <script>
+    "use strict";
+
+    // ---------------------------------------------------------------------
+    // State: conversation history lives ONLY in localStorage on this device
+    // ---------------------------------------------------------------------
+    const STORAGE_KEY = "imba-ta-bot:history:v1";
+    const MAX_LOCAL_MESSAGES = 60;
+
+    /** @type {{role: "user"|"assistant", content: string}[]} */
+    let history = loadHistory();
+
+    function loadHistory() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return [];
+        const parsed = JSON.parse(raw);
+        if (!Array.isArray(parsed)) return [];
+        return parsed
+          .filter(m => m && (m.role === "user" || m.role === "assistant") && typeof m.content === "string")
+          .slice(-MAX_LOCAL_MESSAGES);
+      } catch {
+        return [];
+      }
+    }
+
+    function saveHistory() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(-MAX_LOCAL_MESSAGES)));
+      } catch {}
+    }
+
+    // ---------------------------------------------------------------------
+    // DOM helpers
+    // ---------------------------------------------------------------------
+    const chatEl = document.getElementById("chat");
+    const emptyEl = document.getElementById("empty");
+    const inputEl = document.getElementById("input");
+    const sendBtn = document.getElementById("sendBtn");
+    const clearBtn = document.getElementById("clearBtn");
+
+    let busy = false;
+
+    function autoGrow() {
+      inputEl.style.height = "auto";
+      inputEl.style.height = Math.min(inputEl.scrollHeight, 160) + "px";
+    }
+
+    function renderAll() {
+      // remove all rendered messages but keep the empty placeholder around
+      chatEl.querySelectorAll(".msg").forEach(el => el.remove());
+      if (history.length === 0) {
+        emptyEl.style.display = "";
+        return;
+      }
+      emptyEl.style.display = "none";
+      for (const m of history) {
+        chatEl.appendChild(buildMessageEl(m.role, m.content));
+      }
+      scrollToBottom();
+    }
+
+    function buildMessageEl(role, content) {
+      const wrap = document.createElement("div");
+      wrap.className = "msg " + role;
+
+      const avatar = document.createElement("div");
+      avatar.className = "avatar";
+      avatar.textContent = role === "user" ? "Me" : "TA";
+
+      const bubble = document.createElement("div");
+      bubble.className = "bubble";
+      bubble.textContent = content || "";
+
+      wrap.appendChild(avatar);
+      wrap.appendChild(bubble);
+      return wrap;
+    }
+
+    function scrollToBottom() {
+      requestAnimationFrame(() => {
+        chatEl.scrollTop = chatEl.scrollHeight;
+      });
+    }
+
+    function setBusy(value) {
+      busy = value;
+      sendBtn.disabled = value;
+      sendBtn.textContent = value ? "Generating…" : "Send";
+      inputEl.disabled = value;
+    }
+
+    // ---------------------------------------------------------------------
+    // API endpoint resolution
+    //
+    // The frontend can be served in three different ways, but the backend is
+    // always a *separate* process that owns the API key:
+    //   1. by the Express server itself, so http://localhost:3000  -> same origin
+    //   2. straight from disk (file://)                            -> no origin
+    //   3. from a static host such as GitHub Pages                 -> no backend
+    //
+    // So rather than hardcoding one URL we build a candidate list and use the
+    // first one that actually answers like our API.
+    //
+    // The backend can also be pinned without touching this file, which is how a
+    // hosted copy of the page finds a tunnel or a deployed backend:
+    //   - a query string:   index.html?api=https://xxx.trycloudflare.com
+    //                       (?api may repeat, or hold a comma separated list)
+    //   - an injected global: window.__API_BASE__  = "https://..."   (one url)
+    //                         window.__API_BASES__ = ["https://...", ...]
+    //   - a pointer file:   window.__API_POINTERS__ = [".../api.json"]
+    //                       (or index.html?ptr=...) - see readPointers below
+    //
+    // Several bases are accepted on purpose: a temporary tunnel gets a brand
+    // new hostname on every restart, so a hosted copy embeds every address it
+    // has ever been given and simply uses whichever one still answers.
+    // ---------------------------------------------------------------------
+    const LOCAL_ORIGIN = "http://localhost:3000";
+
+    function normalizeBase(base) {
+      return String(base).trim().replace(/\/+$/, "");
+    }
+
+    function readConfiguredBases() {
+      const found = [];
+      const push = (value) => {
+        const base = normalizeBase(value);
+        if (base && !found.includes(base)) found.push(base);
+      };
+      try {
+        const params = new URLSearchParams(location.search);
+        params.getAll("api").forEach((raw) => String(raw).split(",").forEach(push));
+      } catch {}
+      const injectedList = window.__API_BASES__;
+      if (Array.isArray(injectedList)) injectedList.forEach(push);
+      if (typeof window.__API_BASE__ === "string" && window.__API_BASE__) {
+        push(window.__API_BASE__);
+      }
+      return found;
+    }
+
+    // A hosted copy of this page is meant to keep ONE permanent address while
+    // the laptop behind it restarts and its tunnel hostname changes. To make
+    // that possible the page reads a small "pointer" file at load time and
+    // learns where the backend currently lives:
+    //
+    //   { "bases": ["https://current-name.trycloudflare.com"] }
+    //
+    // Pointer locations come from window.__API_POINTERS__ or ?ptr=..., and are
+    // read in parallel with a short timeout. Whatever fails to load is simply
+    // skipped, so a dead pointer can never block the chat.
+    const CONFIGURED_BASES = readConfiguredBases();
+    const ON_SERVER = location.protocol === "http:" || location.protocol === "https:";
+
+    const POINTER_URLS = (() => {
+      const found = [];
+      const push = (value) => {
+        const url = String(value).trim();
+        if (url && !found.includes(url)) found.push(url);
+      };
+      const single = window.__API_POINTERS__;
+      if (typeof single === "string") push(single);
+      if (Array.isArray(single)) single.forEach(push);
+      if (typeof window.__API_POINTER__ === "string") push(window.__API_POINTER__);
+      try {
+        new URLSearchParams(location.search).getAll("ptr")
+          .forEach((raw) => String(raw).split(",").forEach(push));
+      } catch {}
+      // Any static host that ships an api.json next to this page gets a
+      // working pointer for free - no injection step to remember.
+      if (!found.length && ON_SERVER) push("api.json");
+      return found;
+    })();
+
+    async function readPointers() {
+      if (!POINTER_URLS.length) return [];
+      const found = [];
+      await Promise.all(POINTER_URLS.map(async (pointer) => {
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), 4000);
+        try {
+          const sep = pointer.includes("?") ? "&" : "?";
+          const resp = await fetch(pointer + sep + "t=" + Date.now(), {
+            signal: controller.signal,
+            cache: "no-store",
+          });
+          clearTimeout(timer);
+          if (!resp.ok) return;
+          const data = await resp.json();
+          const bases = Array.isArray(data) ? data : (data && data.bases) || [];
+          bases.forEach((base) => {
+            if (typeof base === "string" && base) found.push(normalizeBase(base));
+          });
+        } catch {
+          clearTimeout(timer); // offline or malformed pointer: ignore it
+        }
+      }));
+      return found;
+    }
+
+    // Configured bases come first, then whatever the pointer file reports,
+    // then the local fallbacks - so a stale tunnel address is skipped quickly
+    // instead of dead-ending the whole request.
+    let candidatesPromise = null;
+    function getCandidates() {
+      if (!candidatesPromise) {
+        candidatesPromise = (async () => {
+          const bases = [...CONFIGURED_BASES];
+          try {
+            (await readPointers()).forEach((base) => {
+              if (base && !bases.includes(base)) bases.push(base);
+            });
+          } catch {}
+          const list = bases.map((base) => base + "/api/chat");
+          if (ON_SERVER) list.push("/api/chat");
+          list.push(LOCAL_ORIGIN + "/api/chat", "http://127.0.0.1:3000/api/chat");
+          return list.filter((url, index) => list.indexOf(url) === index);
+        })();
+      }
+      return candidatesPromise;
+    }
+
+    const REQUEST_TIMEOUT_MS = 90000;
+
+    // POST the conversation to the first candidate that behaves like our API.
+    //
+    // A pure static host answers /api/chat with its own 404 HTML page. That is
+    // a perfectly *successful* HTTP response, so a naive implementation stops
+    // right there and reports "Server returned 404" without ever trying the
+    // real backend. Our backend always answers with either `text/event-stream`
+    // (streaming) or `application/json` (errors), so the content type is what
+    // tells a real backend apart from a static host.
+    async function requestChat(messages) {
+      let lastError = null;
+      const candidates = await getCandidates();
+
+      for (const url of candidates) {
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+        try {
+          const resp = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ messages }),
+            signal: controller.signal,
+          });
+          clearTimeout(timer);
+
+          const ctype = (resp.headers.get("content-type") || "").toLowerCase();
+          const speaksOurProtocol =
+            ctype.includes("text/event-stream") || ctype.includes("application/json");
+
+          if (speaksOurProtocol) return resp; // success, or a real backend error
+          lastError = new Error(`Server returned ${resp.status}`);
+        } catch (err) {
+          clearTimeout(timer);
+          if (err && err.name === "AbortError") throw err;
+          lastError = err; // network-level failure: try the next candidate
+        }
+      }
+      throw lastError || new Error("No backend endpoint could be reached.");
+    }
+
+    function describeError(err) {
+      if (err && err.name === "AbortError") {
+        return "⚠️ The request timed out. Please try again.";
+      }
+      const msg = err && err.message ? err.message : "";
+      if (err instanceof TypeError || /failed to fetch|networkerror|load failed/i.test(msg)) {
+        return CONFIGURED_BASES.length
+          ? "⚠️ Cannot reach the assistant server. It may be offline right now."
+          : "⚠️ Cannot reach the assistant server. Make sure the backend is running, then open the app at "
+            + LOCAL_ORIGIN + " instead of opening index.html directly.";
+      }
+      return "⚠️ " + (msg || "Request failed. Please try again later.");
+    }
+
+    // ---------------------------------------------------------------------
+    // Streaming SSE client
+    // ---------------------------------------------------------------------
+    async function streamChat(userText) {
+      const tempHistory = [...history, { role: "user", content: userText }];
+
+      // optimistic render
+      emptyEl.style.display = "none";
+      chatEl.querySelectorAll(".msg").forEach(el => el.remove());
+      for (const m of tempHistory) {
+        chatEl.appendChild(buildMessageEl(m.role, m.content));
+      }
+
+      const assistantEl = buildMessageEl("assistant", "");
+      const bubble = assistantEl.querySelector(".bubble");
+      bubble.innerHTML =
+        '<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
+      chatEl.appendChild(assistantEl);
+      scrollToBottom();
+
+      setBusy(true);
+
+      let fullReply = "";
+
+      try {
+        const resp = await requestChat(tempHistory);
+
+        if (!resp.ok) {
+          let errMsg = `Server returned ${resp.status}`;
+          try {
+            const j = await resp.json();
+            if (j && j.error) errMsg = j.error;
+          } catch {}
+          throw new Error(errMsg);
+        }
+
+        const reader = resp.body.getReader();
+        const decoder = new TextDecoder("utf-8");
+        let buffer = "";
+
+        while (true) {
+          const { value, done } = await reader.read();
+          if (done) break;
+          buffer += decoder.decode(value, { stream: true });
+
+          // SSE events are separated by a blank line
+          let idx;
+          while ((idx = buffer.indexOf("\n\n")) !== -1) {
+            const rawEvent = buffer.slice(0, idx);
+            buffer = buffer.slice(idx + 2);
+            const line = rawEvent.split("\n").find(l => l.startsWith("data:"));
+            if (!line) continue;
+            const payload = line.slice(5).trim();
+            if (payload === "[DONE]") continue;
+
+            let obj;
+            try {
+              obj = JSON.parse(payload);
+            } catch {
+              continue; // ignore malformed / keep-alive fragments
+            }
+
+            // Server-side failures are delivered as a normal SSE event so the
+            // stream can end gracefully. They must always surface.
+            if (obj && obj.error) {
+              throw new Error(obj.error);
+            }
+
+            if (obj && typeof obj.delta === "string" && obj.delta.length) {
+              if (!fullReply) bubble.textContent = ""; // clear typing dots
+              fullReply += obj.delta;
+              bubble.textContent = fullReply;
+              scrollToBottom();
+            }
+          }
+        }
+
+        if (!fullReply) {
+          bubble.textContent = "(No reply received)";
+        }
+      } catch (err) {
+        bubble.textContent = describeError(err);
+        assistantEl.classList.add("error");
+        return;
+      } finally {
+        setBusy(false);
+      }
+
+      // commit history only after success
+      history = tempHistory;
+      if (fullReply) history.push({ role: "assistant", content: fullReply });
+      saveHistory();
+    }
+
+    // ---------------------------------------------------------------------
+    // Event wiring
+    // ---------------------------------------------------------------------
+    function send() {
+      const text = inputEl.value.trim();
+      if (!text || busy) return;
+      inputEl.value = "";
+      autoGrow();
+      streamChat(text);
+    }
+
+    sendBtn.addEventListener("click", send);
+
+    inputEl.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        send();
+      }
+    });
+
+    inputEl.addEventListener("input", autoGrow);
+
+    clearBtn.addEventListener("click", () => {
+      if (history.length === 0) return;
+      const ok = confirm("Clear all chat history? This cannot be undone.");
+      if (!ok) return;
+      history = [];
+      saveHistory();
+      renderAll();
+    });
+
+    document.querySelectorAll(".quick-q").forEach(btn => {
+      btn.addEventListener("click", () => {
+        if (busy) return;
+        const q = btn.getAttribute("data-q") || btn.textContent || "";
+        inputEl.value = q;
+        autoGrow();
+        inputEl.focus();
+      });
+    });
+
+    renderAll();
+    inputEl.focus();
+  </script>
+</body>
+</html>
